@@ -113,7 +113,7 @@ class TypeScript_Subcommands_test( Typescript_Handlers_test ):
 
     gettype_data = self._BuildRequest( completer_target = 'filetype_default',
                                        command_arguments = [ 'GetDoc' ],
-                                       line_num = 31,
+                                       line_num = 32,
                                        column_num = 2,
                                        contents = contents,
                                        filetype = 'typescript',
@@ -155,3 +155,29 @@ class TypeScript_Subcommands_test( Typescript_Handlers_test ):
                    'line_num': 25,
                    'column_num': 3,
                  } ) )
+
+
+  def GoTo_Fail_test( self ):
+    filepath = self._PathToTestFile( 'test.ts' )
+    contents = open( filepath ).read()
+
+    event_data = self._BuildRequest( filepath = filepath,
+                                     filetype = 'typescript',
+                                     contents = contents,
+                                     event_name = 'BufferVisit' )
+
+    self._app.post_json( '/event_notification', event_data )
+
+    goto_data = self._BuildRequest( completer_target = 'filetype_default',
+                                    command_arguments = [ 'GoToDefinition' ],
+                                    line_num = 30,
+                                    column_num = 6,
+                                    contents = contents,
+                                    filetype = 'typescript',
+                                    filepath = filepath )
+
+    response = self._app.post_json( '/run_completer_command',
+                                    goto_data,
+                                    expect_errors = True ).json
+    assert_that( response,
+                 self._ErrorMatcher( RuntimeError, 'Could not find definition' ) )

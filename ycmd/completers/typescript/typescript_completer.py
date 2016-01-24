@@ -245,16 +245,19 @@ class TypeScriptCompleter( Completer ):
         'offset': request_data[ 'column_num' ]
       } )
 
-      filespans = self._ReadResponse( seq )[ 'body' ]
-      if not filespans:
+      # XXX(vheon): check if this approach is valid or if it is better to keep
+      # the original exception
+      try:
+        filespans = self._ReadResponse( seq )[ 'body' ]
+        span = filespans[ 0 ]
+        return responses.BuildGoToResponse(
+          filepath   = span[ 'file' ],
+          line_num   = span[ 'start' ][ 'line' ],
+          column_num = span[ 'start' ][ 'offset' ]
+        )
+      except Exception:
         raise RuntimeError( 'Could not find definition' )
 
-      span = filespans[ 0 ]
-      return responses.BuildGoToResponse(
-        filepath   = span[ 'file' ],
-        line_num   = span[ 'start' ][ 'line' ],
-        column_num = span[ 'start' ][ 'offset' ]
-      )
 
 
   def _GetType( self, request_data ):

@@ -327,3 +327,28 @@ def LoadPythonSource( name, pathname ):
   else:
     import importlib
     return importlib.machinery.SourceFileLoader( name, pathname ).load_module()
+
+
+def EndsWithPython( path ):
+  """Check if given path ends with a python 2.6+ or 3.3+ name."""
+  return PYTHON_BINARY_REGEX.search( path ) is not None
+
+
+def IsPythonVersionCorrect( path ):
+  """Check if given path is the Python interpreter version 2.6+ or 3.3+."""
+
+  if not EndsWithPython( path ):
+    return False
+
+  command = [ path,
+              '-c',
+              "import sys;"
+              "major, minor = sys.version_info[ :2 ];"
+              "good_python = ( major == 2 and minor >= 6 ) "
+              "or ( major == 3 and minor >= 3 ) or major > 3;"
+              # If this looks weird, remember that:
+              #   int( True ) == 1
+              #   int( False ) == 0
+              "sys.exit( not good_python )" ]
+
+  return utils.SafePopen( command ).wait() == 0

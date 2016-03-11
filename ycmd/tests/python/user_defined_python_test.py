@@ -87,7 +87,7 @@ def UserDefinedPython_WithoutAnyOption_DefaultToYcmdPython_test( app, *args ):
 @IsolatedYcmd
 @patch( 'ycmd.utils.SafePopen' )
 @patch( 'ycmd.completers.python.jedi_completer.JediCompleter.'
-          '_CheckBinaryExists', return_value = False )
+          '_CheckBinaryIsValid', return_value = False )
 def UserDefinedPython_WhenNonExistentPythonIsGiven_ReturnAnError_test( app,
                                                                        *args ):
   python = '/non/existing/path/python'
@@ -104,7 +104,7 @@ def UserDefinedPython_WhenNonExistentPythonIsGiven_ReturnAnError_test( app,
 @IsolatedYcmd
 @patch( 'ycmd.utils.SafePopen' )
 @patch( 'ycmd.completers.python.jedi_completer.JediCompleter.'
-          '_CheckBinaryExists', return_value = True )
+          '_CheckBinaryIsValid', return_value = True )
 def UserDefinedPython_WhenExistingPythonIsGiven_ThatIsUsed_test( app, *args ):
   python = '/existing/python'
   with UserOption( 'python_binary_path', python ):
@@ -115,7 +115,7 @@ def UserDefinedPython_WhenExistingPythonIsGiven_ThatIsUsed_test( app, *args ):
 @IsolatedYcmd
 @patch( 'ycmd.utils.SafePopen' )
 @patch( 'ycmd.completers.python.jedi_completer.JediCompleter.'
-          '_CheckBinaryExists', return_value = True )
+          '_CheckBinaryIsValid', return_value = True )
 def UserDefinedPython_RestartServerWithoutArguments_WillReuseTheLastPython_test(
   app, *args ):
   request = BuildRequest( filetype = 'python',
@@ -127,7 +127,7 @@ def UserDefinedPython_RestartServerWithoutArguments_WillReuseTheLastPython_test(
 @IsolatedYcmd
 @patch( 'ycmd.utils.SafePopen' )
 @patch( 'ycmd.completers.python.jedi_completer.JediCompleter.'
-          '_CheckBinaryExists', return_value = True )
+          '_CheckBinaryIsValid', return_value = True )
 def UserDefinedPython_RestartServerWithArgument_WillUseTheSpecifiedPython_test(
   app, *args ):
   python = '/existing/python'
@@ -140,7 +140,7 @@ def UserDefinedPython_RestartServerWithArgument_WillUseTheSpecifiedPython_test(
 @IsolatedYcmd
 @patch( 'ycmd.utils.SafePopen' )
 @patch( 'ycmd.completers.python.jedi_completer.JediCompleter.'
-          '_CheckBinaryExists', return_value = False )
+          '_CheckBinaryIsValid', return_value = False )
 def UserDefinedPython_RestartServerWithNonExistingPythonArgument_test( app,
                                                                        *args ):
   python = '/non/existing/python'

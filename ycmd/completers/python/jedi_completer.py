@@ -77,16 +77,16 @@ class JediCompleter( Completer ):
 
   def _UpdatePythonBinary( self, binary ):
     if binary:
-      if not self._CheckBinaryExists( binary ):
+      if not self._CheckBinaryIsValid( binary ):
         msg = BINARY_NOT_FOUND_MESSAGE.format( binary )
         self._logger.error( msg )
         raise RuntimeError( msg )
       self._python_binary_path = binary
 
 
-  def _CheckBinaryExists( self, binary ):
+  def _CheckBinaryIsValid( self, binary ):
     """This method is here to help testing"""
-    return os.path.isfile( binary )
+    return utils.IsPythonVersionCorrect( binary )
 
 
   def SupportedFiletypes( self ):

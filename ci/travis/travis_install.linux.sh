@@ -7,6 +7,7 @@ mkdir ${HOME}/bin
 
 ln -s /usr/bin/g++-6 ${HOME}/bin/c++
 ln -s /usr/bin/gcc-6 ${HOME}/bin/cc
+ln -s /usr/bin/gcov-6 ${HOME}/bin/gcov
 
 export PATH=${HOME}/bin:${PATH}
 

@@ -14,7 +14,7 @@ compiler:
   - gcc
 script: ./run_tests.py
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov --gcov-glob */tests/* */BoostParts/*
 env:
   global:
     - MONO_THREADS_PER_CPU=2000

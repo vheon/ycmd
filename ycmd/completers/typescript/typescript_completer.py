@@ -175,7 +175,7 @@ class TypeScriptCompleter( Completer ):
     the DeferredResponse instances.
     """
 
-    while True:
+    while self._ServerIsRunning():
       try:
         message = self._ReadMessage()
 
@@ -260,6 +260,9 @@ class TypeScriptCompleter( Completer ):
     Send a request message to TSServer and wait
     for the response.
     """
+
+    if not self._ServerIsRunning():
+      raise RuntimeError( "TSServer is not running" )
 
     request = self._BuildRequest( command, arguments )
     json_request = json.dumps( request ) + '\n'

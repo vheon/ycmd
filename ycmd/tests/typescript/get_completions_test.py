@@ -27,8 +27,10 @@ from hamcrest import ( all_of, any_of, assert_that, contains_inanyorder,
                        has_entries, has_item, is_not )
 from mock import patch
 
-from ycmd.tests.typescript import PathToTestFile, SharedYcmd
-from ycmd.tests.test_utils import BuildRequest, CompletionEntryMatcher
+from ycmd.tests.typescript import ( PathToTestFile, SharedYcmd,
+                                    IsolatedYcmd, StopTSServer )
+from ycmd.tests.test_utils import ( BuildRequest, ErrorMatcher,
+                                    CompletionEntryMatcher )
 from ycmd.utils import ReadFile
 
 
@@ -135,3 +137,20 @@ def GetCompletions_AfterRestart_test( app ):
                            '{ foo: string; bar: number; }): void' ) } ),
         )
       } ) )
+
+
+@IsolatedYcmd
+def ErrorWhenCrashed( app ):
+  StopTSServer( app )
+
+  filepath = PathToTestFile( 'test.ts' )
+  response = app.post_json( '/completions',
+                            BuildRequest( filepath = filepath,
+                                          filetype = 'typescript',
+                                          contents = ReadFile( filepath ),
+                                          force_semantic = True,
+                                          line_num = 17,
+                                          column_num = 6 ),
+                            expect_errors = True )
+  assert_that( response,
+               ErrorMatcher( RuntimeError, 'TSServer is not running' ) )

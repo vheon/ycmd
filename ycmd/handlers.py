@@ -187,6 +187,7 @@ def LoadExtraConfFile():
   _logger.info( 'Received extra conf load request' )
   request_data = RequestWrap( request.json, validate = False )
   extra_conf_store.Load( request_data[ 'filepath' ], force = True )
+  return _JsonResponse( True )
 
 
 @app.post( '/ignore_extra_conf_file' )
@@ -194,6 +195,7 @@ def IgnoreExtraConfFile():
   _logger.info( 'Received extra conf ignore request' )
   request_data = RequestWrap( request.json, validate = False )
   extra_conf_store.Disable( request_data[ 'filepath' ] )
+  return _JsonResponse( True )
 
 
 @app.post( '/debug_info' )

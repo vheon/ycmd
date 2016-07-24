@@ -14,7 +14,7 @@ compiler:
   - gcc
 script: ./run_tests.py
 after_success:
-  - codecov --gcov-glob '*/tests/*' '*/BoostParts/*' --gcov-source-match 'cpp/ycm/'
+  - python ./ci/codecov-python.py --gcov-glob '*/tests/*' '*/BoostParts/*' --gcov-source-match 'cpp/ycm/'
 env:
   global:
     - MONO_THREADS_PER_CPU=2000

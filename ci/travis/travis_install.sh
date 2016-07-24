@@ -55,7 +55,7 @@ test ${python_version} == ${YCMD_PYTHON_VERSION}
 
 pip install -U pip wheel setuptools
 pip install -r test_requirements.txt
-pip install https://github.com/sublimator/codecov-python@source-match
+pip install -e git+https://github.com/sublimator/codecov-python@source-match#egg=codecov
 npm install -g typescript
 
 ############

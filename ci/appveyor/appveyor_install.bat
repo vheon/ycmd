@@ -36,7 +36,7 @@ if %python% == 27 (
 appveyor DownloadFile https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install -r test_requirements.txt
-pip install https://github.com/sublimator/codecov-python@source-match
+pip install -e git+https://github.com/sublimator/codecov-python@source-match#egg=codecov
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 ::

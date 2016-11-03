@@ -68,6 +68,15 @@ ERROR_FROM_RACERD_MESSAGE = (
 LOGFILE_FORMAT = 'racerd_{port}_{std}_'
 
 
+# The two functions below are there only for testability.
+def _ExistsReleaseRacerd():
+  return os.path.isfile( RACERD_BINARY_RELEASE )
+
+
+def _ExistsDebugRacerd():
+  return os.path.isfile( RACERD_BINARY_DEBUG )
+
+
 def FindRacerdBinary( user_options ):
   """
   Find path to racerd binary
@@ -83,12 +92,12 @@ def FindRacerdBinary( user_options ):
       return racerd_user_binary
     _logger.warning( 'User-provided racerd_binary_path does not exist.' )
 
-  if os.path.isfile( RACERD_BINARY_RELEASE ):
+  if _ExistsReleaseRacerd():
     return RACERD_BINARY_RELEASE
 
   # We want to support using the debug binary for the sake of debugging; also,
   # building the release version on Travis takes too long.
-  if os.path.isfile( RACERD_BINARY_DEBUG ):
+  if _ExistsDebugRacerd():
     _logger.warning( 'Using racerd DEBUG binary; performance will suffer!' )
     return RACERD_BINARY_DEBUG
 

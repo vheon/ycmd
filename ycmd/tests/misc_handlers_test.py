@@ -27,8 +27,9 @@ from builtins import *  # noqa
 from hamcrest import assert_that, contains, empty, equal_to, has_entries
 import requests
 
-from ycmd.tests import PathToTestFile, SharedYcmd
-from ycmd.tests.test_utils import BuildRequest, DummyCompleter, PatchCompleter
+from ycmd.tests import PathToTestFile, SharedYcmd, IsolatedYcmd
+from ycmd.tests.test_utils import ( BuildRequest, DummyCompleter,
+                                    PatchCompleter, StopCompleterServer )
 
 
 @SharedYcmd
@@ -100,3 +101,12 @@ def MiscHandlers_IgnoreExtraConfFile_AlwaysJsonResponse_test( app ):
 
   assert_that( app.post_json( '/ignore_extra_conf_file', extra_conf_data ).json,
                equal_to( True ) )
+
+
+@IsolatedYcmd
+def MiscHandlers_ReadyIncludeSubservers_ReturnFalseIfOneSubserverIsDown_test( app ): # noqa
+  # Be sure that at least one subserver is down.
+  StopCompleterServer( app, 'python' )
+
+  response = app.get( '/ready', { 'include_subservers': True } ).json
+  assert_that( response, equal_to( False ) )

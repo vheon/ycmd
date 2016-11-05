@@ -169,6 +169,11 @@ def FiletypeCompleterExistsForFiletype( filetype ):
   return os.path.exists( PathToFiletypeCompleterPluginLoader( filetype ) )
 
 
+def FiletypesWithExistingCompleter():
+  return [ filetype for filetype in os.listdir( _PathToCompletersFolder() )
+           if FiletypeCompleterExistsForFiletype( filetype ) ]
+
+
 def FilterAndSortCandidatesWrap( candidates, sort_property, query ):
   from ycm_core import FilterAndSortCandidates
 

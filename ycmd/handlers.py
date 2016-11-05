@@ -36,7 +36,8 @@ from ycmd import extra_conf_store, hmac_plugin, server_state, user_options_store
 from ycmd.responses import BuildExceptionResponse, BuildCompletionResponse
 from ycmd.request_wrap import RequestWrap
 from ycmd.bottle_utils import SetResponseHeader
-from ycmd.completers.completer_utils import FilterAndSortCandidatesWrap
+from ycmd.completers.completer_utils import ( FilterAndSortCandidatesWrap,
+                                              FiletypesWithExistingCompleter )
 
 
 # num bytes for the request body buffer; request.json only works if the request
@@ -151,12 +152,14 @@ def GetReady():
     filetype = request.query.subserver
     return _JsonResponse( _IsSubserverReady( filetype ) )
   if request.query.include_subservers:
-    return _JsonResponse( _IsSubserverReady( 'cs' ) )
+    all_ready = all( _IsSubserverReady( filetype )
+                     for filetype in FiletypesWithExistingCompleter() )
+    return _JsonResponse( all_ready )
   return _JsonResponse( True )
 
 
 def _IsSubserverReady( filetype ):
-  completer = _server_state.GetFiletypeCompleter( [filetype] )
+  completer = _server_state.GetFiletypeCompleter( [ filetype ] )
   return completer.ServerIsReady()
 
 

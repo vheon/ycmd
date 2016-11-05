@@ -26,7 +26,10 @@ from builtins import *  # noqa
 import functools
 import os
 
-from ycmd.tests.test_utils import ClearCompletionsCache, SetUpApp
+from ycmd import handlers
+from ycmd.completers.completer_utils import FiletypesWithExistingCompleter
+from ycmd.tests.test_utils import ( ClearCompletionsCache, SetUpApp,
+                                    StopCompleterServer )
 
 shared_app = None
 
@@ -57,4 +60,25 @@ def SharedYcmd( test ):
   def Wrapper( *args, **kwargs ):
     ClearCompletionsCache()
     return test( shared_app, *args, **kwargs )
+  return Wrapper
+
+
+def IsolatedYcmd( test ):
+  """Defines a decorator to be attached to tests of this package. This decorator
+  passes a unique ycmd application as a parameter. It should be used on tests
+  that change the server state in a irreversible way (ex: a semantic subserver
+  is stopped or restarted) or expect a clean state (ex: no semantic subserver
+  started, no .ycm_extra_conf.py loaded, etc).
+
+  Do NOT attach it to test generators but directly to the yielded tests."""
+  @functools.wraps( test )
+  def Wrapper( *args, **kwargs ):
+    old_server_state = handlers._server_state
+    app = SetUpApp()
+    try:
+      test( app, *args, **kwargs )
+    finally:
+      for filetype in FiletypesWithExistingCompleter():
+        StopCompleterServer( app, filetype )
+      handlers._server_state = old_server_state
   return Wrapper

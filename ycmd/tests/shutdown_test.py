@@ -26,6 +26,7 @@ from builtins import *  # noqa
 from hamcrest import assert_that, equal_to
 
 from ycmd.tests.client_test import Client_test
+from ycmd.completers.completer_utils import FiletypesWithExistingCompleter
 
 
 class Shutdown_test( Client_test ):
@@ -46,13 +47,7 @@ class Shutdown_test( Client_test ):
   def FromHandlerWithSubservers_test( self ):
     self.Start()
 
-    filetypes = [ 'cs',
-                  'go',
-                  'javascript',
-                  'python',
-                  'typescript',
-                  'rust' ]
-    for filetype in filetypes:
+    for filetype in FiletypesWithExistingCompleter():
       self.StartSubserverForFiletype( filetype )
     self.AssertServersAreRunning()
 
@@ -76,13 +71,7 @@ class Shutdown_test( Client_test ):
   def FromWatchdogWithSubservers_test( self ):
     self.Start( idle_suicide_seconds = 5, check_interval_seconds = 1 )
 
-    filetypes = [ 'cs',
-                  'go',
-                  'javascript',
-                  'python',
-                  'typescript',
-                  'rust' ]
-    for filetype in filetypes:
+    for filetype in FiletypesWithExistingCompleter():
       self.StartSubserverForFiletype( filetype )
     self.AssertServersAreRunning()
 

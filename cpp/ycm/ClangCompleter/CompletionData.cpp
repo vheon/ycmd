@@ -112,8 +112,8 @@ std::string ChunkToString( CXCompletionString completion_string,
 }
 
 
-std::string OptionalChunkToString( CXCompletionString completion_string,
-                                   size_t chunk_num ) {
+static std::string OptionalChunkToString( CXCompletionString completion_string,
+                                          size_t chunk_num ) {
   std::string final_string;
 
   if ( !completion_string )

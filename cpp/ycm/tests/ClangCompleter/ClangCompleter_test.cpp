@@ -43,6 +43,9 @@ TEST( ClangCompleterTest, CandidatesForLocationInFile ) {
       std::vector< std::string >() );
 
   EXPECT_TRUE( !completions.empty() );
+  EXPECT_THAT( completions,
+               Contains( Property( &CompletionData::MainCompletionText,
+                                   StrEq( "fobar( int i = 5 )" ) ) ) );
 }
 
 

@@ -16,6 +16,7 @@
 // along with ycmd.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "benchmark/benchmark_api.h"
+#include "CandidateRepository.h"
 #include "IdentifierCompleter.h"
 #include <iomanip>
 #include <sstream>
@@ -24,6 +25,8 @@ namespace YouCompleteMe {
 
 static void IdentifierCompleter_CandidatesWithCommonPrefix_bench(
     benchmark::State& state ) {
+
+  CandidateRepository::Instance().ClearCandidates();
 
   // Generate a list of candidates of the form a_a_a_[a-z]{5}.
   std::vector< std::string > candidates;
@@ -37,10 +40,12 @@ static void IdentifierCompleter_CandidatesWithCommonPrefix_bench(
     candidates.push_back( candidate );
   }
 
-  while ( state.KeepRunning() )
-    IdentifierCompleter( candidates ).CandidatesForQuery( "aa" );
+  IdentifierCompleter completer( candidates );
 
-  state.SetComplexityN( state.range(0) );
+  while ( state.KeepRunning() )
+    completer.CandidatesForQuery( "aa" );
+
+  state.SetComplexityN( state.range( 0 ) );
 }
 
 BENCHMARK( IdentifierCompleter_CandidatesWithCommonPrefix_bench )

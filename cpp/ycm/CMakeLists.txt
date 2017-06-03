@@ -225,10 +225,8 @@ file( GLOB_RECURSE SERVER_SOURCES *.h *.cpp )
 # The test and benchmark sources are a part of a different target, so we remove
 # them. The CMakeFiles cpp file is picked up when the user creates an in-source
 # build, and we don't want that. We also remove client-specific code.
-file( GLOB_RECURSE to_remove tests/*.h tests/*.cpp
-                             benchmarks/*.h benchmarks/*.cpp
-                             CMakeFiles/*.cpp
-                             *client* )
+file( GLOB_RECURSE to_remove tests/*.h tests/*.cpp benchmarks/*.h
+                             benchmarks/*.cpp CMakeFiles/*.cpp *client* )
 
 if( to_remove )
   list( REMOVE_ITEM SERVER_SOURCES ${to_remove} )

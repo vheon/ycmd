@@ -23,11 +23,16 @@
 
 namespace YouCompleteMe {
 
-static void IdentifierCompleter_CandidatesWithCommonPrefix_bench(
+class IdentifierCompleterFixture : public benchmark::Fixture {
+public:
+  void SetUp( const benchmark::State& state ) {
+    CandidateRepository::Instance().ClearCandidates();
+  }
+};
+
+
+BENCHMARK_DEFINE_F( IdentifierCompleterFixture, CandidatesWithCommonPrefix )(
     benchmark::State& state ) {
-
-  CandidateRepository::Instance().ClearCandidates();
-
   // Generate a list of candidates of the form a_A_a_[a-z]{5}.
   std::vector< std::string > candidates;
   for ( int i = 0; i < state.range( 0 ); i++ ) {
@@ -48,7 +53,7 @@ static void IdentifierCompleter_CandidatesWithCommonPrefix_bench(
   state.SetComplexityN( state.range( 0 ) );
 }
 
-BENCHMARK( IdentifierCompleter_CandidatesWithCommonPrefix_bench )
+BENCHMARK_REGISTER_F( IdentifierCompleterFixture, CandidatesWithCommonPrefix )
     ->RangeMultiplier( 2 )
     ->Range( 1, 1 << 16 )
     ->Complexity();

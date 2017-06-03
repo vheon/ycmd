@@ -28,10 +28,10 @@ static void IdentifierCompleter_CandidatesWithCommonPrefix_bench(
 
   CandidateRepository::Instance().ClearCandidates();
 
-  // Generate a list of candidates of the form a_a_a_[a-z]{5}.
+  // Generate a list of candidates of the form a_A_a_[a-z]{5}.
   std::vector< std::string > candidates;
   for ( int i = 0; i < state.range( 0 ); i++ ) {
-    std::string candidate = "a_a_a_";
+    std::string candidate = "a_A_a_";
     std::ostringstream number;
     number << std::setfill( '0' ) << std::setw( 5 ) << i;
     for ( auto character : number.str() ) {
@@ -43,7 +43,7 @@ static void IdentifierCompleter_CandidatesWithCommonPrefix_bench(
   IdentifierCompleter completer( candidates );
 
   while ( state.KeepRunning() )
-    completer.CandidatesForQuery( "aa" );
+    completer.CandidatesForQuery( "aA" );
 
   state.SetComplexityN( state.range( 0 ) );
 }

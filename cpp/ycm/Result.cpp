@@ -178,11 +178,10 @@ bool Result::operator< ( const Result &other ) const {
       return text_is_lowercase_;
   }
 
-  // Lexicographic comparison, but we prioritize lowercase letters over
-  // uppercase ones. So "foo" < "Foo".
-  return StringLessThanWithLowercasePriority( *text_, *other.text_ );
+  return lexicographical_score_ < other.lexicographical_score_;
 }
 
+#include <math.h>
 
 void Result::SetResultFeaturesFromQuery(
   const std::string &word_boundary_chars,
@@ -202,6 +201,17 @@ void Result::SetResultFeaturesFromQuery(
     num_wb_matches / static_cast< double >( word_boundary_chars.length() );
   query_is_candidate_prefix_ = QueryIsPrefix( *text_, query );
 
+  double base = 256;
+  double score = 0;
+  size_t pos = text_->length();
+  for ( auto first = text_->begin(), last = text_->end();
+        first != last;
+        ++first)
+  {
+    score += pow( base, pos ) * ChangeCharCase( *first );
+    --pos;
+  }
+  lexicographical_score_ = score;
 }
 
 

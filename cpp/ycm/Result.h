@@ -86,6 +86,7 @@ private:
   // points to the full candidate text
   const std::string *text_;
 
+  double lexicographical_score_;
 };
 
 template< class T >

@@ -18,9 +18,13 @@
 #include "IdentifierCompleter.h"
 
 #include "Candidate.h"
+#ifdef YCM_TAGFILE_ENABLED
 #include "IdentifierUtils.h"
+#endif
 #include "Result.h"
+#ifdef YCM_TAGFILE_ENABLED
 #include "Utils.h"
+#endif
 
 namespace YouCompleteMe {
 
@@ -60,6 +64,7 @@ void IdentifierCompleter::ClearForFileAndAddIdentifiersToDatabase(
 }
 
 
+#ifdef YCM_TAGFILE_ENABLED
 void IdentifierCompleter::AddIdentifiersToDatabaseFromTagFiles(
   const std::vector< std::string > &absolute_paths_to_tag_files ) {
   for( const std::string & path : absolute_paths_to_tag_files ) {
@@ -67,6 +72,7 @@ void IdentifierCompleter::AddIdentifiersToDatabaseFromTagFiles(
       ExtractIdentifiersFromTagsFile( path ) );
   }
 }
+#endif
 
 
 std::vector< std::string > IdentifierCompleter::CandidatesForQuery(

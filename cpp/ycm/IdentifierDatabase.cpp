@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 ycmd contributors
+// Copyright (C) 2013-2020 ycmd contributors
 //
 // This file is part of ycmd.
 //
@@ -19,7 +19,6 @@
 
 #include "Candidate.h"
 #include "CandidateRepository.h"
-#include "IdentifierUtils.h"
 #include "Result.h"
 #include "Utils.h"
 

@@ -55,8 +55,10 @@ public:
     const std::string &filetype,
     const std::string &filepath );
 
+#ifdef YCM_TAGFILE_ENABLED
   YCM_EXPORT void AddIdentifiersToDatabaseFromTagFiles(
     const std::vector< std::string > &absolute_paths_to_tag_files );
+#endif
 
   void AddIdentifiersToDatabaseFromBuffer(
     const std::string &buffer_contents,

@@ -1,4 +1,4 @@
-// Copyright (C) 2011, 2012 Google Inc.
+// Copyright (C) 2011-2020 ycmd contributors
 //
 // This file is part of ycmd.
 //
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with ycmd.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "Utils.h"
+#include "FilesUtils.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>

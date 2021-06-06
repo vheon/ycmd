@@ -22,6 +22,7 @@
 #include "Documentation.h"
 #include "TranslationUnitStore.h"
 #include "UnsavedFile.h"
+#include "YcmExport.h"
 
 #include <string>
 

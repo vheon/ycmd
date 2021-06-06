@@ -18,6 +18,8 @@
 #ifndef CHARACTER_H_YTIET2HZ
 #define CHARACTER_H_YTIET2HZ
 
+#include "YcmExport.h"
+
 #include <string>
 #include <string_view>
 #include <vector>

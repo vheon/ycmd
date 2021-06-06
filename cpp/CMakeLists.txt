@@ -119,19 +119,6 @@ endif()
 # a shorter loading time and higher performance.
 set( CMAKE_CXX_VISIBILITY_PRESET hidden )
 
-if ( DEFINED ENV{YCM_BENCHMARK} OR DEFINED ENV{YCM_TESTRUN})
-  if ( MSVC )
-    add_definitions( -DYCM_EXPORT=__declspec\(\ dllexport\ \) )
-  elseif( CMAKE_COMPILER_IS_GNUCXX OR COMPILER_IS_CLANG )
-    add_definitions(
-      -DYCM_EXPORT=__attribute__\(\(visibility\(\"default\"\)\)\) )
-  else()
-    add_definitions( -DYCM_EXPORT= )
-  endif()
-else()
-  add_definitions( -DYCM_EXPORT= )
-endif()
-
 #############################################################################
 
 # MSVC has snprintf since version 14 which is newer than what we support.

@@ -20,6 +20,7 @@
 
 #include "TranslationUnit.h"
 #include "UnsavedFile.h"
+#include "YcmExport.h"
 
 #include <memory>
 #include <mutex>

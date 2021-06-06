@@ -22,6 +22,7 @@
 #include "Character.h"
 #include "CodePoint.h"
 #include "Utils.h"
+#include "YcmExport.h"
 
 #ifdef YCM_ABSEIL_SUPPORTED
 #include <absl/container/flat_hash_map.h>

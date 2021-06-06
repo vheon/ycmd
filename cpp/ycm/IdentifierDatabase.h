@@ -18,6 +18,8 @@
 #ifndef IDENTIFIERDATABASE_H_ZESX3CVR
 #define IDENTIFIERDATABASE_H_ZESX3CVR
 
+#include "YcmExport.h"
+
 #ifdef YCM_ABSEIL_SUPPORTED
 #include <absl/container/flat_hash_map.h>
 namespace YouCompleteMe {

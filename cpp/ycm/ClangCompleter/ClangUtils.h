@@ -18,6 +18,8 @@
 #ifndef CLANGUTILS_H_9MVHQLJS
 #define CLANGUTILS_H_9MVHQLJS
 
+#include "YcmExport.h"
+
 #include <clang-c/Index.h>
 #include <stdexcept>
 #include <string>

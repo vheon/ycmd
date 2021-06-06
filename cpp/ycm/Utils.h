@@ -18,6 +18,8 @@
 #ifndef UTILS_H_KEPMRPBH
 #define UTILS_H_KEPMRPBH
 
+#include "YcmExport.h"
+
 #include <algorithm>
 #include <cmath>
 #include <filesystem>

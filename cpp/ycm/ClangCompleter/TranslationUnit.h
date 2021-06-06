@@ -22,6 +22,7 @@
 #include "Documentation.h"
 #include "Location.h"
 #include "UnsavedFile.h"
+#include "YcmExport.h"
 
 #include <clang-c/Index.h>
 

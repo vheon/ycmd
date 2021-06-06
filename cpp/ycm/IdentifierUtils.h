@@ -19,6 +19,7 @@
 #define IDENTIFIERUTILS_CPP_WFFUZNET
 
 #include "IdentifierDatabase.h"
+#include "YcmExport.h"
 
 #include <filesystem>
 

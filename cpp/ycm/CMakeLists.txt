@@ -319,22 +319,57 @@ file( REMOVE ${CMAKE_CURRENT_BINARY_DIR}/main.cpp )
 
 if( ${ABSL_SUPPORTED} )
   message( STATUS "Using Abseil hash tables" )
-  set( EXTRA_LIBS ${EXTRA_LIBS} absl::flat_hash_map absl::flat_hash_set )
+  set( ABSL_LIBS absl::flat_hash_map absl::flat_hash_set )
 else()
   message( STATUS "Using STL hash tables" )
 endif()
 
 #############################################################################
 
-add_library( ${PROJECT_NAME} SHARED ${SERVER_SOURCES})
+include(GenerateExportHeader)
+
+add_library( ycm_identifier STATIC
+  Candidate.cpp
+  Character.cpp
+  CodePoint.cpp
+  IdentifierCompleter.cpp
+  IdentifierDatabase.cpp
+  IdentifierUtils.cpp
+  Repository.cpp
+  Result.cpp
+  Utils.cpp
+  versioning.cpp
+  Word.cpp )
+target_compile_definitions( ycm_identifier PRIVATE YCM_ALL_HIDDEN )
+target_include_directories( ycm_identifier
+  SYSTEM
+  PUBLIC ${CMAKE_BINARY_DIR}/exports
+  PUBLIC ${CMAKE_SOURCE_DIR}/absl )
+
+target_link_libraries( ycm_identifier
+                       PUBLIC ${STD_FS_LIB}
+                       PUBLIC ${ABSL_LIBS}
+                     )
+
+add_library( ${PROJECT_NAME} SHARED ${SERVER_SOURCES} )
+generate_export_header( ${PROJECT_NAME}
+  EXPORT_MACRO_NAME YCM_EXPORT
+  EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/YcmExport.h
+  STATIC_DEFINE YCM_ALL_HIDDEN )
 
 if ( ${ABSL_SUPPORTED} )
   target_compile_definitions( ${PROJECT_NAME} PUBLIC YCM_ABSEIL_SUPPORTED )
+  target_compile_definitions( ycm_identifier PUBLIC YCM_ABSEIL_SUPPORTED )
+endif()
+
+if ( NOT DEFINED ENV{YCM_BENCHMARK} AND NOT DEFINED ENV{YCM_TESTRUN})
+  target_compile_definitions( ${PROJECT_NAME} PRIVATE YCM_ALL_HIDDEN )
 endif()
 
 target_include_directories(
   ${PROJECT_NAME}
   SYSTEM
+  PUBLIC ${CMAKE_BINARY_DIR}/exports
   PUBLIC ${PYBIND11_INCLUDES_DIR}
   PUBLIC ${Python3_INCLUDE_DIRS}
   PUBLIC ${CLANG_INCLUDES_DIR}
@@ -351,6 +386,7 @@ target_link_libraries( ${PROJECT_NAME}
                        PUBLIC ${Python3_LIBRARIES}
                        PUBLIC ${LIBCLANG_TARGET}
                        PUBLIC ${STD_FS_LIB}
+                       PUBLIC ${ABSL_LIBS}
                        PUBLIC ${EXTRA_LIBS}
                      )
 

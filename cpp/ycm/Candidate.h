@@ -19,6 +19,7 @@
 #define CANDIDATE_H_R5LZH6AC
 
 #include "Word.h"
+#include "YcmExport.h"
 
 #include <memory>
 #include <string>

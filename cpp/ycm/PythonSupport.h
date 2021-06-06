@@ -18,6 +18,8 @@
 #ifndef PYTHONSUPPORT_H_KWGFEX0V
 #define PYTHONSUPPORT_H_KWGFEX0V
 
+#include "YcmExport.h"
+
 #include <pybind11/pybind11.h>
 
 namespace YouCompleteMe {

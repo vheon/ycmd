@@ -19,6 +19,7 @@
 #define COMPLETER_H_7AR4UGXE
 
 #include "IdentifierDatabase.h"
+#include "YcmExport.h"
 
 #include <string>
 #include <vector>

@@ -19,6 +19,7 @@
 #define WORD_H_UOHAUKVQ
 
 #include "Character.h"
+#include "YcmExport.h"
 
 #include <bitset>
 #include <string>
